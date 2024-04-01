@@ -25,6 +25,10 @@ sounddevice==0.4.2
 soundfile==0.10.3.post1
 playsound==1.3.0
 
+# RDF support
+iribaker==0.2
+rdflib==6.1.1
+
 # Utils
 cachetools==4.2.4
 fuzzywuzzy==0.18.0
