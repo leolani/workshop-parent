@@ -1,0 +1,48 @@
+[submodule "cltl-requirements/util"]
+	path = cltl-requirements/util
+	url = https://github.com/leolani/cltl-build.git
+	branch = main
+[submodule "emissor"]
+	path = emissor
+	url = https://github.com/leolani/emissor.git
+	branch = main
+[submodule "util"]
+	path = util
+	url = https://github.com/leolani/cltl-build.git
+	branch = main
+[submodule "cltl-combot"]
+	path = cltl-combot
+	url = https://github.com/leolani/cltl-combot.git
+	branch = main
+[submodule "cltl-backend"]
+	path = cltl-backend
+	url = https://github.com/leolani/cltl-backend.git
+	branch = main
+[submodule "cltl-emissor-data"]
+	path = cltl-emissor-data
+	url = https://github.com/leolani/cltl-emissor-data.git
+	branch = main
+[submodule "cltl-vad"]
+	path = cltl-vad
+	url = https://github.com/leolani/cltl-vad.git
+	branch = main
+[submodule "cltl-asr"]
+	path = cltl-asr
+	url = https://github.com/leolani/cltl-asr.git
+	branch = main
+[submodule "cltl-chat-ui"]
+	path = cltl-chat-ui
+	url = https://github.com/leolani/cltl-chat-ui.git
+	branch = main
+[submodule "cltl-eliza"]
+	path = cltl-eliza
+	url = https://github.com/leolani/cltl-eliza.git
+	branch = main
+[submodule "cltl-leolani"]
+	path = cltl-leolani
+	url = https://github.com/leolani/cltl-leolani.git
+	branch = main
+[submodule "cltl-object-recognition"]
+	path = cltl-object-recognition
+	url = https://github.com/leolani/cltl-object-recognition.git
+	branch = main
