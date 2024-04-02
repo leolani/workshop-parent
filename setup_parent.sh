@@ -158,6 +158,7 @@ rm -rf py-app src
 cp -r "$base_dir/workshop-app/py-app" py-app
 cp -r "$base_dir/workshop-app/src" src
 cp "$base_dir/workshop-app/makefile" makefile
+cp "$base_dir/workshop-app/setup.py" setup.py
 cp "$base_dir/workshop-app/requirements.txt" requirements.txt
 mkdir -p py-app/storage
 mkdir -p py-app/storage/audio
@@ -177,19 +178,23 @@ git push
 #### Change component names in makefiles and setup.py
 #####################################################
 
+echo "RENAME workshop-app in makefile and ${name}"-app/makefile"
+echo "RENAME package name in ${name}"-app/setup.py"
+exit 0
+
 cd ${name}-app"
-sed -i '.bak' "s/workshop-app/${name}-app/g" makefile
+sed -i '.bak' 's/workshop-app/"${name}"-app/g' makefile
 rm makefile.bak
-sed -i '.bak' "s/packages=find_namespace_packages.*/packages=find_namespace_packages(include=['cltl.*', 'cltl_service.*', 'workshop.*', 'workshop_service.*'], where='src'),/g" setup.py
+sed -i '.bak' 's/workshop-app/"${name}"-app/g' setup.py
 rm setup.py.bak
-add .
+git add .
 git commit -m "Adjust names"
 git push
 cd ..
 
-sed -i '.bak' "s/workshop-app/${name}-app/g" makefile
+sed -i '.bak' 's/workshop-app/"${name}"-app/g' makefile
 rm makefile.bak
-add .
-git commit -m "Adjust names"
+git add .
+git commit -m "Adjust names"l
 git push
 

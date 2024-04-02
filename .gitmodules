@@ -48,5 +48,5 @@
 	branch = main
 [submodule "workshop-app"]
 	path = workshop-app
-	url = https://github.com/numblr/workshop-app
+	url = https://github.com/leolani/workshop-app.git
 	branch = main
