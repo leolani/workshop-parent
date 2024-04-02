@@ -4,7 +4,10 @@ set -e
 
 base_dir=$(pwd)
 
-# Parse command-line options
+#####################################################
+#### Parse command-line options
+#####################################################
+
 name=""
 remote=""
 destination=""
@@ -19,7 +22,7 @@ usage() {
   echo ""
   echo "Example:"
   echo ""
-  echo "$0 --name mycomponent --remote 'https://github.com/me/mycomponent.git' --destination ~/myproject-parent"
+  echo "$0 --name mycomponent --remote 'https://github.com/myaccount' --destination ~/myproject-parent"
   echo ""
   exit 1
 }
@@ -43,6 +46,11 @@ if [ -z "$name" ] || [ -z "$remote" ] || [ -z "$destination" ]; then
   exit 1
 fi
 
+
+#####################################################
+#### Setup GitHub Repositories
+#####################################################
+
 echo "Setup parent repository for name with remote $remote in $destination"
 
 remote_parent="$remote/${name}-parent"
@@ -59,6 +67,9 @@ if curl -ILs "$remote_app" | tac | grep -m1 HTTP | grep 404; then
 fi
 
 
+#####################################################
+#### Setup parent git repository
+#####################################################
 
 echo "Setup git repository"
 mkdir -p "$destination"
@@ -76,6 +87,10 @@ git add .
 git commit -m "Setup repository"
 
 
+#####################################################
+#### Create cltl-requirements in parent repository
+#####################################################
+
 echo "Add requirements"
 wget https://github.com/leolani/cltl-requirements/archive/main.zip
 unzip main.zip
@@ -87,6 +102,10 @@ rm -rf cltl-requirements/util
 git add .
 git commit -m "Add cltl-requirements"
 
+
+#####################################################
+#### Add components as git submodules
+#####################################################
 
 echo "Add submodules"
 git submodule add -b main https://github.com/leolani/cltl-build.git cltl-requirements/util
@@ -107,6 +126,10 @@ git add .
 git commit -m "Add submodules"
 
 
+#####################################################
+#### Create application repository from template
+#####################################################
+
 echo "Add ${name}-app"
 git submodule add -b main --name "${name}-app" "https://github.com/leolani/cltl-template.git" "${name}-app"
 cd "${name}-app"
@@ -125,16 +148,48 @@ git push --set-upstream origin main
 
 git submodule update --init --recursive
 
+#####################################################
+#### Copy Python application
+#####################################################
+
 echo "Setup application in $destination/${name}-app/py-app"
 cd "${name}-app"
 rm -rf py-app src
-cp -r "$base_dir/py-app" py-app
-cp -r "$base_dir/src" src
+cp -r "$base_dir/workshop-app/py-app" py-app
+cp -r "$base_dir/workshop-app/src" src
 cp "$base_dir/workshop-app/makefile" makefile
-mkdir py-app/storage
-mkdir py-app/storage/audio
-mkdir py-app/storage/image
+cp "$base_dir/workshop-app/requirements.txt" requirements.txt
+mkdir -p py-app/storage
+mkdir -p py-app/storage/audio
+mkdir -p py-app/storage/image
 
 git add .
 git commit -m "Add application"
 git push
+
+cd ..
+git add .
+git commit -m "Add application"
+git push
+
+
+#####################################################
+#### Change component names in makefiles and setup.py
+#####################################################
+
+cd ${name}-app"
+sed -i '.bak' "s/workshop-app/${name}-app/g" makefile
+rm makefile.bak
+sed -i '.bak' "s/packages=find_namespace_packages.*/packages=find_namespace_packages(include=['cltl.*', 'cltl_service.*', 'workshop.*', 'workshop_service.*'], where='src'),/g" setup.py
+rm setup.py.bak
+add .
+git commit -m "Adjust names"
+git push
+cd ..
+
+sed -i '.bak' "s/workshop-app/${name}-app/g" makefile
+rm makefile.bak
+add .
+git commit -m "Adjust names"
+git push
+
